@@ -17,6 +17,13 @@
     }
   ],
   
+  "browser_action": {
+    "default_icon": {
+      "19": "lambchop.19.png",
+      "38": "lambchop.38.png"
+    }
+  },
+  
   "web_accessible_resources": [
     "socketPuppet.js",
     "devtoolsinjector.js",

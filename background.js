@@ -8,6 +8,10 @@ chrome.extension.onConnect.addListener(function(port) {
             devPorts[msg.tabId] = port;
             spPorts[msg.tabId] = chrome.tabs.connect(msg.tabId, {name: 'spPortal'});
             spPorts[msg.tabId].onMessage.addListener(function(msg) {
+                if(msg.payload.action == 'open') {
+                    chrome.browserAction.setIcon({tabId: msg.tabId, path: 'lambchop.on.38.png'});
+                    chrome.browserAction.enable(msg.tabId);
+                }
                 devPorts[msg.tabId].postMessage(msg.payload);
             });
         }
@@ -26,3 +30,8 @@ chrome.extension.onMessage.addListener(
         }
     }
 );
+/*
+chrome.browserAction.onClicked.addListener(function(tab) {
+    console.log(tab.id);
+});*/
+chrome.browserAction.disable();
