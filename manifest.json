@@ -4,6 +4,8 @@
   "name": "Socket Puppet",
   "description": "This extension sniffs websockets.",
   "version": "0.1",
+  "devtools_page": "devtoolsinjector.html",
+  "background":{"scripts":["background.js"]},
 
   "permissions": ["tabs","<all_urls>"],
   
@@ -16,6 +18,9 @@
   ],
   
   "web_accessible_resources": [
-    "socketPuppet.js"
+    "socketPuppet.js",
+    "devtoolsinjector.js",
+    "devToolsTab.js",
+    "lambchop.png"
   ]
 }

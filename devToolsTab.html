@@ -1,0 +1,26 @@
+<html>
+<head>
+    <link href="devToolsTab.css" rel="stylesheet" type="text/css">
+    <script src="devToolsTab.js"></script>
+</head>
+<body>
+    <div id="leftBar">
+        <ul>
+            <li>Event log</li>
+            <li>Breakpoints</li>
+        </ul>
+    </div>
+    <div id="paneContainer">
+        <div class="pane show" id="events">
+            Prompt before sending messages: <input type="checkbox" id="interrupt" />
+            <h1>Events:</h1>
+            <ul id="events">
+            
+            </ul>
+        </div>
+        <div class="pane hidden" id="breakpoints">
+            <h1>Breakpoints:</h1>
+        </div>
+    </div>
+</body>
+</html>
