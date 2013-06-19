@@ -13,7 +13,10 @@ h1  {
     width: 150px;
     height: 100%;
     float: left;
-    background-color: #aaa;
+    background-color: #D7DDE5;
+    border-width: 1px;
+    border-color: #B5B9BD;
+    border-right-style: solid;
 }
 #paneContainer    {
     margin-left: 10px;

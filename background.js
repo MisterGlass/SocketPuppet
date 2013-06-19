@@ -2,19 +2,39 @@ var devPorts = [];
 var spPorts = [];
 
 chrome.extension.onConnect.addListener(function(port) {
-    if (port.name !== "spDevTools") return;
-    port.onMessage.addListener(function(msg) {
-        if(msg.action == 'link')    {
-            devPorts[msg.tabId] = port;
-            spPorts[msg.tabId] = chrome.tabs.connect(msg.tabId, {name: 'spPortal'});
-            spPorts[msg.tabId].onMessage.addListener(function(msg) {
-                devPorts[msg.tabId].postMessage(msg.payload);
-            });
-        }
-        else    {
-            spPorts[msg.tabId].postMessage(msg);
-        }
-    });
+    if (port.name == "spDevTools")  {
+        port.onMessage.addListener(function(msg) {
+            if(msg.action == 'link')    {
+                console.log('linked to dt '+msg.tabId);
+                devPorts[msg.tabId] = port;
+            }
+            else    {
+                console.log('post to cs '+msg.tabId);
+                spPorts[msg.tabId].postMessage(msg);
+            }
+        });
+    }
+    else if(port.name == "spContentScript") {
+        port.onMessage.addListener(function(msg) {
+            if(msg.action == 'link')    {
+                console.log('linked to cs '+msg.tabId);
+                spPorts[msg.tabId] = port;
+            }
+            else    {
+                if(typeof devPorts[msg.tabId] != 'undefined')   {
+                    console.log('post to dt '+msg.tabId);
+                    devPorts[msg.tabId].postMessage(msg.payload);
+                }
+                else    {
+                    console.log('DT '+msg.tabId+' not connected');
+                    if(msg.payload.action == 'send') {
+                        console.log('bounce send back to cs '+msg.tabId);
+                        spPorts[msg.tabId].postMessage({action: 'send', payload: msg.payload.event, tabId: msg.tabId});
+                    }
+                }
+            }
+        });
+    }
 });
 
 // Listen for tabId requests

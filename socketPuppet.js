@@ -22,7 +22,6 @@ window.WebSocket = function WebSocket(url,protocol) {
     
     this.sendSmokeSignal = function(action, msg)    {
         var payload = {action: action, event: msg};
-        hold = payload; //save the msg to var so i can play with it on cmd line
         window.postMessage({ direction: "out", payload: payload }, "*");
     }
     this.receiveSmokeSignal = function(msg)    {

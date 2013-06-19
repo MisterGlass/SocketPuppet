@@ -9,7 +9,10 @@ logEvent = function(msg)    {
     if(i>1) ul.insertBefore(li, document.getElementById("event"+(i-1)));
     else    ul.appendChild(li);
 }
-
+sendMessage = function(msg)  {
+    portal.postMessage({action: 'send', payload: msg, tabId: chrome.devtools.inspectedWindow.tabId});
+    logEvent('Sent message: '+msg);
+}
 handleOpen = function(msg)  {
     logEvent('new socket opened');
 }
@@ -20,8 +23,7 @@ handleSend = function(msg)  {
     if(document.getElementById('interrupt').checked)   {
         msg = prompt('Client wants to send "'+msg+'". What should the response be?', msg);
     }
-    portal.postMessage({action: 'send', payload: msg, tabId: chrome.devtools.inspectedWindow.tabId});
-    logEvent('Sent message: '+msg);
+    sendMessage(msg);
 }
 handleError = function(msg)  {
     logEvent('socket triggered error');
@@ -30,12 +32,14 @@ handleClose = function(msg)  {
     logEvent('socket closed by server');
 }
 
+
 var portal = chrome.extension.connect({name:"spDevTools"});
 var msg = {
     action: 'link',
     tabId: chrome.devtools.inspectedWindow.tabId
 }
 portal.postMessage(msg);
+
 
 portal.onMessage.addListener(function(msg) {
     if(msg.action == 'open') handleOpen(msg.event);
@@ -45,3 +49,12 @@ portal.onMessage.addListener(function(msg) {
     else if(msg.action == 'close') handleClose(msg.event);
     else logEvent('error unhandled msg');
 });
+
+
+
+window.onload = function() {
+    var form = document.getElementById('sendMsg');
+    form.onsubmit = function() {
+        sendMessage(document.getElementById('msgInput').value);
+    }
+}
