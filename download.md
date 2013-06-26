@@ -6,6 +6,8 @@ subtitle: Socket Puppet, a chrome extension that lets you play with websockets.
 
 #Get Socket Puppet
 
+#Note: These links will not work until Socket Puppet is released at BsidesLV on 8/1/2013
+
 ###Requirements
 [Google Chrome][CHROME] is required to run Socket Puppet
 
