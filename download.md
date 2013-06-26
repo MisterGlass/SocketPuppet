@@ -6,13 +6,13 @@ subtitle: Socket Puppet, a chrome extension that lets you play with websockets.
 
 #Get Socket Puppet
 
-##Requirements
+###Requirements
 Google Chrome is required to run Socket Puppet
 
-##Installation
+###Installation
 Socket Puppet can be installed directly from the [chrome web store][LINK] or by clicking [this link][INSTALL] in Google Chrome.
 
-##Develop
+###Develop
 If you would like to run Socket Puppet directly from the source code, please follow the instructions in the [readme][README] on github
 
 [LINK]: <https://chrome.google.com/extensions/detail/odpmdfegfklbkkljglpaholpnhkmdbfo?hl=en> "Socket Pupper in the Chrome Web Store"
