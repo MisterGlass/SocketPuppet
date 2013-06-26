@@ -1,10 +1,10 @@
 #Socket Puppet
 
-A chrome plugin for hacking websockets by Yair Silbermintz
+##A chrome plugin for hacking websockets by Yair Silbermintz
 
 
 
-##To use:
+###To use:
 
 - Install - instructions at https://developer.chrome.com/extensions/getstarted.html#unpacked
 - Goto a webpage with a websocket - I have been using http://www.websocket.org/echo.html for testing
