@@ -56,5 +56,6 @@ window.onload = function() {
     var form = document.getElementById('sendMsg');
     form.onsubmit = function() {
         sendMessage(document.getElementById('msgInput').value);
+        return false;
     }
 }
