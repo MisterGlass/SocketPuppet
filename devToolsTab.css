@@ -1,12 +1,18 @@
 html, body  {
     padding: 0px;
     margin: 0px;
+    list-style-type: none;
 }
 h1  {
     font-size: 12pt;
 }
 .hidden {
     display: none;
+}
+ul  {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 #leftBar    {
@@ -18,8 +24,25 @@ h1  {
     border-color: #B5B9BD;
     border-right-style: solid;
 }
+#leftBar ul {
+    padding: 10px;
+}
+#leftBar li  {
+    padding: 3px;
+    font-weight: bold;
+    font-size: 16pt;
+}
 #paneContainer    {
     margin-left: 10px;
     height: 100%;
     float: left;
+    width: 1200px;
+}
+#paneContainer ul :nth-child(even)   {
+    background-color: #E9E9E9;
+}
+#paneContainer li    {
+    padding: 5px;
+    font-size: 12pt;
+    line-height: 14px;
 }

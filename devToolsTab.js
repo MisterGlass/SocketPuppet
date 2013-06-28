@@ -1,10 +1,20 @@
 var i = 0;
+
+saveToFile = function(link) {
+    href = 'data:text;charset=utf-8,';
+    var ul = document.getElementById('events');
+    for(var j = ul.children.length-1; j>=0; j--)    {
+        href += encodeURI(ul.children[j].innerHTML)+"%0A";
+    }
+    chrome.tabs.create({ url:href, active:false}, function(e){alert(e)});
+}
+
 logEvent = function(msg)    {
     i++;
     var ul = document.getElementById('events');
     var li = document.createElement("li");
     li.id = "event"+i;
-    li.appendChild(document.createTextNode(i+' - '+msg));
+    li.innerHTML = i+' - '+msg;
     
     if(i>1) ul.insertBefore(li, document.getElementById("event"+(i-1)));
     else    ul.appendChild(li);
@@ -17,7 +27,7 @@ handleOpen = function(msg)  {
     logEvent('new socket opened');
 }
 handleMessage = function(msg)  {
-    logEvent('Received message: '+msg);
+    logEvent('Received message: '+JSON.stringify(msg));
 }
 handleSend = function(msg)  {
     if(document.getElementById('interrupt').checked)   {
@@ -56,6 +66,11 @@ window.onload = function() {
     var form = document.getElementById('sendMsg');
     form.onsubmit = function() {
         sendMessage(document.getElementById('msgInput').value);
+        return false;
+    }
+    var save = document.getElementById('save');
+    save.onclick = function() {
+        saveToFile();
         return false;
     }
 }

@@ -2,7 +2,7 @@ var sckt = window.WebSocket; // Save for later
 var socketPuppets = [];
 var hold = null;
 
-window.WebSocket = function WebSocket(url,protocol) {
+WebSocket = function WebSocket(url,protocol) {
     
     // Placeholders for event functions
     this.onmessage = function(e){};
@@ -28,7 +28,16 @@ window.WebSocket = function WebSocket(url,protocol) {
         //handle input from devtools
         console.log('a');
         console.log(msg);
-        if(msg.action == 'send') this.sckt.send(msg.payload);
+        if(msg.action == 'send')    {
+            
+            try {
+                 payload = JSON.parse(msg.payload);
+            }
+            catch(e)    {
+                payload = msg.payload;
+            }
+            this.sckt.send(payload);
+        }
         else console.log('Error, unkown input received');
     }
     
@@ -75,13 +84,11 @@ window.WebSocket = function WebSocket(url,protocol) {
     
     // Setup send/close functions
     this.send = function(a) {
-        console.log('Sent: '+a);
         this.sendSmokeSignal('send', a);
         //return this.sckt.send(a);
         return true;
     };
     this.close = function(a,b) {
-        console.log('Closed');
         this.sendSmokeSignal('close', {a:a, b:b});
         return this.sckt.close(a,b);
     };
@@ -91,6 +98,7 @@ window.WebSocket = function WebSocket(url,protocol) {
     
     socketPuppets.push(this);
 }
+window.WebSocket = WebSocket;
 
 window.addEventListener("message", function(event) {
     // We only accept messages from ourselves

@@ -7,24 +7,25 @@
     <div id="leftBar">
         <ul>
             <li>Event log</li>
-            <li>Breakpoints</li>
+            <!-- <li>Breakpoints</li> -->
         </ul>
     </div>
     <div id="paneContainer">
-        <div class="pane show" id="events">
+        <div class="pane show" id="eventsContainer">
             Prompt before sending messages: <input type="checkbox" id="interrupt" />
+            <form id="sendMsg">
+                <input type="text" id="msgInput" />
+                <input type="submit" value="send" />
+            </form>
+            <a id="save" href="#" download="">Save</a>
+            <hr />
             <h1>Events:</h1>
             <ul id="events">
-            
             </ul>
         </div>
         <div class="pane hidden" id="breakpoints">
             <h1>Breakpoints:</h1>
         </div>
-        <form id="sendMsg">
-            <input type="text" id="msgInput" />
-            <input type="submit" value="send" />
-        </form>
     </div>
 </body>
 </html>
