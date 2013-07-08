@@ -1,12 +1,16 @@
 var devPorts = [];
 var spPorts = [];
 
+
 chrome.extension.onConnect.addListener(function(port) {
     if (port.name == "spDevTools")  {
         port.onMessage.addListener(function(msg) {
             if(msg.action == 'link')    {
                 console.log('linked to dt '+msg.tabId);
                 devPorts[msg.tabId] = port;
+            }
+            else if(msg.action == 'save')   {
+                chrome.tabs.create({url: 'data:text;base64,'+btoa(msg.payload), active:false});
             }
             else    {
                 console.log('post to cs '+msg.tabId);

@@ -1,12 +1,12 @@
 var i = 0;
 
 saveToFile = function(link) {
-    href = 'data:text;charset=utf-8,';
+    content = '';
     var ul = document.getElementById('events');
     for(var j = ul.children.length-1; j>=0; j--)    {
-        href += encodeURI(ul.children[j].innerHTML)+"%0A";
+        content += ul.children[j].innerHTML+"\n";
     }
-    chrome.tabs.create({ url:href, active:false}, function(e){alert(e)});
+    portal.postMessage({action: 'save', payload: content, tabId: chrome.devtools.inspectedWindow.tabId});
 }
 
 logEvent = function(msg)    {
