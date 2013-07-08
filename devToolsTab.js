@@ -4,7 +4,7 @@ saveToFile = function(link) {
     content = '';
     var ul = document.getElementById('events');
     for(var j = ul.children.length-1; j>=0; j--)    {
-        content += ul.children[j].innerHTML+"\n";
+        content += ul.children[j].innerHTML+"\r\n";
     }
     portal.postMessage({action: 'save', payload: content, tabId: chrome.devtools.inspectedWindow.tabId});
 }
