@@ -46,6 +46,9 @@ handleSend = function(msg)  {
     
     logEvent('Page asked to send: '+msg);
     
+    //You can add additional logic here for more complex message filtering
+    
+    
     filters.forEach(function(element){
         msg = msg.replace(element.regex, element.replacement)
     })

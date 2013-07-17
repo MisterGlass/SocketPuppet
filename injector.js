@@ -28,12 +28,3 @@ window.addEventListener("message", function(event) {
         port.postMessage(msg);
     }
 }, false);
-
-/*
-chrome.runtime.onConnect.addListener(function(port) {
-    portal = port;
-    port.onMessage.addListener(function(msg) {
-        window.postMessage({ direction: "in", payload: msg }, "*");
-    });
-});
-*/
