@@ -3,7 +3,7 @@
 
   "name": "Socket Puppet",
   "description": "This extension sniffs websockets.",
-  "version": "0.2",
+  "version": "0.3",
   "devtools_page": "devtoolsinjector.html",
   "background":{"scripts":["background.js"]},
 
