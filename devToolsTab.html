@@ -4,27 +4,25 @@
     <script src="devToolsTab.js"></script>
 </head>
 <body>
-    <div id="leftBar">
-        <ul>
-            <li>Event log</li>
-            <!-- <li>Breakpoints</li> -->
-        </ul>
-    </div>
     <div id="paneContainer">
-        <div class="pane show" id="eventsContainer">
-            Prompt before sending messages: <input type="checkbox" id="interrupt" />
-            <form id="sendMsg">
-                <input type="text" id="msgInput" />
-                <input type="submit" value="send" />
-            </form>
-            <a id="save" href="#" download="">Save</a>
-            <hr />
-            <h1>Events:</h1>
+        <div id="eventsContainer">
+            <h1>
+                Events: 
+                <a id="save" href="#" download="">save</a>
+            </h1>
             <ul id="events">
             </ul>
         </div>
-        <div class="pane hidden" id="breakpoints">
-            <h1>Breakpoints:</h1>
+        <div id="controls">
+            <form id="sendMsg">
+                <input type="submit" value="Send Message" />
+                <textarea id="msgInput"></textarea>
+            </form>
+            Interrupt page messages: <input type="checkbox" id="interrupt" />
+            <hr />
+            <h1>Filters (Regex - Replacement)  <a id="add" href="#">add</a></h1>
+            <ul id="filters">
+            </ul>
         </div>
     </div>
 </body>

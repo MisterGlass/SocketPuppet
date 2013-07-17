@@ -15,34 +15,37 @@ ul  {
     padding: 0;
 }
 
-#leftBar    {
-    width: 150px;
-    height: 100%;
+
+#eventsContainer    {
+    width: 72%;
+    padding-left: 10px;
     float: left;
-    background-color: #D7DDE5;
-    border-width: 1px;
-    border-color: #B5B9BD;
-    border-right-style: solid;
+    overflow: hidden;
 }
-#leftBar ul {
-    padding: 10px;
-}
-#leftBar li  {
-    padding: 3px;
-    font-weight: bold;
-    font-size: 16pt;
-}
-#paneContainer    {
-    margin-left: 10px;
-    height: 100%;
-    float: left;
-    width: 1200px;
-}
-#paneContainer ul :nth-child(even)   {
+#eventsContainer ul :nth-child(even)   {
     background-color: #E9E9E9;
 }
-#paneContainer li    {
+#eventsContainer li    {
     padding: 5px;
     font-size: 12pt;
     line-height: 14px;
+}
+#eventsContainer a#save {
+    padding-left: 25px;
+    text-decoration: none;
+}
+
+#controls   {
+    width: 23%;
+    overflow: hidden;
+    padding: 15px;
+    float: right;
+}
+#controls #sendMsg input  {
+    margin-left: 0px;
+    margin-bottom: 10px;
+}
+#controls textarea   {
+    width: 100%;
+    height: 50px;
 }

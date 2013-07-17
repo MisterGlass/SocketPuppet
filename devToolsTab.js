@@ -1,4 +1,6 @@
 var i = 0;
+var j = 0;
+var filters = new Array();
 
 saveToFile = function(link) {
     content = '';
@@ -10,11 +12,22 @@ saveToFile = function(link) {
 }
 
 logEvent = function(msg)    {
+    var d, hours, minutes, seconds, ul, li;
     i++;
-    var ul = document.getElementById('events');
-    var li = document.createElement("li");
+    ul = document.getElementById('events');
+    li = document.createElement("li");
     li.id = "event"+i;
-    li.innerHTML = i+' - '+msg;
+    
+    d = new Date();
+    hours = d.getHours();
+    if(hours < 10) hours = "0" + hours;
+    minutes = d.getMinutes();
+    if(minutes < 10) minutes = "0" + minutes;
+    seconds = d.getSeconds();
+    if(seconds < 10) seconds = "0" + seconds;
+    d = d.getMonth()+'/'+d.getDate()+'/'+d.getFullYear()+' '+hours+':'+minutes+':'+seconds;
+    
+    li.innerHTML =  d+' - '+msg;
     
     if(i>1) ul.insertBefore(li, document.getElementById("event"+(i-1)));
     else    ul.appendChild(li);
@@ -30,16 +43,24 @@ handleMessage = function(msg)  {
     logEvent('Received message: '+JSON.stringify(msg));
 }
 handleSend = function(msg)  {
+    
+    logEvent('Page asked to send: '+msg);
+    
+    filters.forEach(function(element){
+        msg = msg.replace(element.regex, element.replacement)
+    })
+
     if(document.getElementById('interrupt').checked)   {
-        msg = prompt('Client wants to send "'+msg+'". What should the response be?', msg);
+        msg = prompt('Page wants to send "'+msg+'". What should the message be?', msg);
     }
+    
     sendMessage(msg);
 }
 handleError = function(msg)  {
-    logEvent('socket triggered error');
+    logEvent('socket triggered error handler');
 }
 handleClose = function(msg)  {
-    logEvent('socket closed by server');
+    logEvent('socket closed');
 }
 
 
@@ -72,5 +93,20 @@ window.onload = function() {
     save.onclick = function() {
         saveToFile();
         return false;
+    }
+    var add = document.getElementById('add');
+    add.onclick = function() {
+        regex = prompt('What would you like to filter out? (regex)');
+        replacement = prompt('What would you like to repalce it with? (string)');
+        regex = new RegExp(regex, "g");
+        filters.push({regex: regex, replacement: replacement});
+        
+        j++;
+        ul = document.getElementById('filters');
+        li = document.createElement("li");
+        li.id = "filter"+j;
+        
+        li.innerHTML =  regex+' - '+replacement;
+        ul.appendChild(li);
     }
 }
