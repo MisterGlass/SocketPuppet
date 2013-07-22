@@ -1,23 +1,27 @@
-var i = 0;
-var j = 0;
+var logSize = 0;
+var numFilters = 0;
 var filters = new Array();
 
+// Save log content to a file
 saveToFile = function(link) {
     content = '';
     var ul = document.getElementById('events');
-    for(var j = ul.children.length-1; j>=0; j--)    {
-        content += ul.children[j].innerHTML+"\r\n";
+    for(var line = ul.children.length-1; line>=0; line--)    {
+        content += ul.children[line].innerHTML+"\r\n";
     }
     portal.postMessage({action: 'save', payload: content, tabId: chrome.devtools.inspectedWindow.tabId});
 }
 
 logEvent = function(msg)    {
-    var d, hours, minutes, seconds, ul, li;
-    i++;
+    var ul, li;
+    logSize++;
     ul = document.getElementById('events');
-    li = document.createElement("li");
-    li.id = "event"+i;
     
+    li = document.createElement("li");//Build DOM element
+    li.id = "event"+logSize;
+    
+    // Ugly date formatting code block
+    var d, hours, minutes, seconds;
     d = new Date();
     hours = d.getHours();
     if(hours < 10) hours = "0" + hours;
@@ -27,15 +31,23 @@ logEvent = function(msg)    {
     if(seconds < 10) seconds = "0" + seconds;
     d = d.getMonth()+'/'+d.getDate()+'/'+d.getFullYear()+' '+hours+':'+minutes+':'+seconds;
     
-    li.innerHTML =  d+' - '+msg;
-    
-    if(i>1) ul.insertBefore(li, document.getElementById("event"+(i-1)));
+    li.innerHTML =  d+' - '+msg; 
+    // Handle inserting logs on top
+    if(logSize>1) ul.insertBefore(li, document.getElementById("event"+(logSize-1)));
     else    ul.appendChild(li);
 }
+
+// Pass messages to the background page
 sendMessage = function(msg)  {
     portal.postMessage({action: 'send', payload: msg, tabId: chrome.devtools.inspectedWindow.tabId});
     logEvent('Sent message: '+msg);
 }
+
+/*
+    Handlers for the various websocket events
+    Most of these simply log, but can easily be 
+    extended to tamper with application logic
+*/
 handleOpen = function(msg)  {
     logEvent('new socket opened');
 }
@@ -66,14 +78,13 @@ handleClose = function(msg)  {
     logEvent('socket closed');
 }
 
-
+// Setup portal to background page
 var portal = chrome.extension.connect({name:"spDevTools"});
 var msg = {
     action: 'link',
     tabId: chrome.devtools.inspectedWindow.tabId
 }
 portal.postMessage(msg);
-
 
 portal.onMessage.addListener(function(msg) {
     if(msg.action == 'open') handleOpen(msg.event);
@@ -85,31 +96,47 @@ portal.onMessage.addListener(function(msg) {
 });
 
 
-
+// Setup UI in dev tools
 window.onload = function() {
+
     var form = document.getElementById('sendMsg');
     form.onsubmit = function() {
         sendMessage(document.getElementById('msgInput').value);
         return false;
     }
+    
     var save = document.getElementById('save');
     save.onclick = function() {
         saveToFile();
         return false;
     }
+    
+    var clearLog = document.getElementById('clearLog');
+    clearLog.onclick = function() {
+        var ul = document.getElementById('events');
+        while (ul.firstChild) {
+            ul.removeChild(ul.firstChild);
+        }
+        
+        logSize= 0;
+        return false;
+    }
+    
     var add = document.getElementById('add');
     add.onclick = function() {
+        // I got lazy with the UI for filters. If you have a better idea, fork & fix please
         regex = prompt('What would you like to filter out? (regex)');
         replacement = prompt('What would you like to repalce it with? (string)');
         regex = new RegExp(regex, "g");
         filters.push({regex: regex, replacement: replacement});
         
-        j++;
+        numFilters++;
         ul = document.getElementById('filters');
         li = document.createElement("li");
-        li.id = "filter"+j;
+        li.id = "filter"+numFilters;
         
         li.innerHTML =  regex+' - '+replacement;
         ul.appendChild(li);
     }
+    
 }

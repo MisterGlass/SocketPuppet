@@ -14,7 +14,10 @@ ul  {
     margin: 0;
     padding: 0;
 }
-
+a {
+    padding-left: 25px;
+    text-decoration: none;
+}
 
 #eventsContainer    {
     width: 72%;
@@ -29,10 +32,6 @@ ul  {
     padding: 5px;
     font-size: 12pt;
     line-height: 14px;
-}
-#eventsContainer a#save {
-    padding-left: 25px;
-    text-decoration: none;
 }
 
 #controls   {

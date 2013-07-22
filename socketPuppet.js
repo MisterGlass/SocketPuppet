@@ -4,13 +4,17 @@ var hold = null;
 
 WebSocket = function WebSocket(url,protocol) {
     
-    // Placeholders for event functions
+    // Placeholders for event handlers
     this.onmessage = function(e){};
     this.onopen = function(e){};
     this.onerror = function(e){};
     this.onclose = function(e){};
     
-    // Since we cant define readonly attributes (yet?) we'll use this to regrab all the readonly data whenever we're called
+    /*
+        Since we cant define readonly attributes 
+        we'll use this to reset all the readonly 
+        data after every function call
+    */
     this.updateStatics = function() {
         this.url = this.sckt.url;
         this.readyState = this.sckt.readyState;
@@ -20,16 +24,13 @@ WebSocket = function WebSocket(url,protocol) {
         this.binaryType = this.sckt.binaryType;
     };
     
+    // Handle passing messages to/from devtools
     this.sendSmokeSignal = function(action, msg)    {
         var payload = {action: action, event: msg};
         window.postMessage({ direction: "out", payload: payload }, "*");
     }
     this.receiveSmokeSignal = function(msg)    {
-        //handle input from devtools
-        console.log('a');
-        console.log(msg);
         if(msg.action == 'send')    {
-            
             try {
                  payload = JSON.parse(msg.payload);
             }
@@ -38,14 +39,20 @@ WebSocket = function WebSocket(url,protocol) {
             }
             this.sckt.send(payload);
         }
-        else console.log('Error, unkown input received');
     }
     
     
-    // Setup actual WebSocket & bind event handlers
-    this.sckt = new sckt(url,protocol);
+    
+    // Setup actual WebSocket
+    this.sckt = new sckt(url,protocol); //reference to the Crhom websocket API
     this.sckt.parent = this; // Need reference to Socket Puppet for events to work
     
+    /*
+        The code below is meant to emulate teh websocekt interface
+        as closely as possible. Some parts of the interface are impossible 
+        in javascript, such as the constants. Others are difficult 
+        to do 100% correctly due to javascripts asynchronous nature
+    */
     this.sckt.onopen = function(e)  {
         e = {
             url: this.url,
@@ -58,22 +65,27 @@ WebSocket = function WebSocket(url,protocol) {
         this.parent.updateStatics();
     };
     this.sckt.onmessage = function(e)  {
-        console.log('msg: '+e.data);
         this.parent.sendSmokeSignal('message', e.data);
         this.parent.onmessage(e);
         this.parent.updateStatics();
     };
     this.sckt.onerror = function(e)  {
-        console.log('error: '+e);
         this.parent.sendSmokeSignal('error', e);
         this.parent.onerror(e);
         this.parent.updateStatics();
     };
     this.sckt.onclose = function(e)  {
-        console.log('close: '+e);
         this.parent.sendSmokeSignal('close', e);
         this.parent.onclose(e);
         this.parent.updateStatics();
+    };
+    this.send = function(a) {
+        this.sendSmokeSignal('send', a);
+        return true;
+    };
+    this.close = function(a,b) {
+        this.sendSmokeSignal('close', {a:a, b:b});
+        return this.sckt.close(a,b);
     };
     
     // These are supposed to be constants, but sadly we can't (yet)
@@ -82,18 +94,7 @@ WebSocket = function WebSocket(url,protocol) {
     this.CLOSING = 2;
     this.CLOSED = 3;
     
-    // Setup send/close functions
-    this.send = function(a) {
-        this.sendSmokeSignal('send', a);
-        //return this.sckt.send(a);
-        return true;
-    };
-    this.close = function(a,b) {
-        this.sendSmokeSignal('close', {a:a, b:b});
-        return this.sckt.close(a,b);
-    };
-    
-    // Set attributes
+    // Setup read only attributes
     this.updateStatics();
     
     socketPuppets.push(this);
@@ -101,11 +102,16 @@ WebSocket = function WebSocket(url,protocol) {
 window.WebSocket = WebSocket;
 
 window.addEventListener("message", function(event) {
-    // We only accept messages from ourselves
+    // Make sure this message isnt from a third party
     if (event.source != window) return;
     if (event.data.direction && (event.data.direction == "in")) {
+        /* 
+            Currently we only have support for one socket, but socketpuppet 
+            holds all websockets on the page in an array, so we need to send 
+            the message to all the sockets. This is mostly placeholder for
+            multiple socket support
+        */
         for(var i=0; i<socketPuppets.length; i++) {
-            console.log('looped');
             socketPuppets[i].receiveSmokeSignal(event.data.payload);
         }
     }
