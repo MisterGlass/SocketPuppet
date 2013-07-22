@@ -13,7 +13,7 @@ subtitle: Socket Puppet, a chrome extension that lets you play with websockets.
 4. Socket Puppet will begin logging websocket events
 
 ## Controls
-- You can save and/or clear a log using the links above the event log.
-- You can input your own message and send it from the form on the top right.
-- If you want to intercept & tamper with all messages, you can check the 'interrupt page messages' checkbox on the right
-- You can add filters using the add link on the right.
+- Use the links above the event log to save & clear the log
+- Use the form on the top right to send your own message
+- Use the 'interrupt page messages' checkbox to intercept & tamper with every message
+- Use the add link on the right to add regex filters
