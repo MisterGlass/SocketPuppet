@@ -1,0 +1,9 @@
+#footer nav li  {
+    padding: 5px;
+    border-left-style: solid;
+    border-left-width: 1px;
+    border-left-color: silver;
+}
+#footer nav:first-child {
+    border-left-style: none;
+}
