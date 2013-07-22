@@ -1,9 +1,21 @@
+#footer {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
 #footer nav li  {
-    padding: 5px;
+    padding: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
     border-left-style: solid;
     border-left-width: 1px;
     border-left-color: silver;
+    
+    list-style: none;
+    display: inline;
+    font-family: 'OpenSansLight', "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
-#footer nav:first-child {
+#footer nav li:first-child {
     border-left-style: none;
 }

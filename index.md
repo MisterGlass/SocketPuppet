@@ -5,4 +5,4 @@ subtitle: Socket Puppet, a chrome extension that lets you play with websockets.
 ---
 
 
-[Download](/download) or [learn more](/about)
+[Download](download) or [learn more](about)

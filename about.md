@@ -16,6 +16,6 @@ Socket Puppet allows you to log websocket events, modify outbound messages, and 
 
 You can get Socket Puppet [here][DOWNLOAD] and read all about how to use it on our [how to][HOWTO] page.
 
-[DOWNLOAD]: </download> "download"
-[HOWTO]: </howto> "how to"
-[LICENSE]: </LICENSE.txt> "license"
+[DOWNLOAD]: <download> "download"
+[HOWTO]: <howto> "how to"
+[LICENSE]: <LICENSE.txt> "license"
