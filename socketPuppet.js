@@ -70,12 +70,12 @@ WebSocket = function WebSocket(url,protocol) {
         this.parent.updateStatics();
     };
     this.sckt.onerror = function(e)  {
-        this.parent.sendSmokeSignal('error', e);
+        this.parent.sendSmokeSignal('error', String(e));
         this.parent.onerror(e);
         this.parent.updateStatics();
     };
     this.sckt.onclose = function(e)  {
-        this.parent.sendSmokeSignal('close', e);
+        this.parent.sendSmokeSignal('close', String(e));
         this.parent.onclose(e);
         this.parent.updateStatics();
     };
