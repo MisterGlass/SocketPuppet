@@ -15,6 +15,6 @@ If you are running Chrome, just <a onclick="chrome.webstore.install(); return fa
 ###Develop
 If you would like to run Socket Puppet directly from the source code, please follow the instructions in the [readme][README] on github
 
-[LINK]: <https://chrome.google.com/extensions/detail/odpmdfegfklbkkljglpaholpnhkmdbfo> "Socket Pupper in the Chrome Web Store"
+[LINK]: <https://chrome.google.com/extensions/detail/odpmdfegfklbkkljglpaholpnhkmdbfo> "Socket Puppet in the Chrome Web Store"
 [README]: <https://github.com/MisterGlass/SocketPuppet/blob/master/README.md> "Read Me"
 [CHROME]: <https://www.google.com/intl/en/chrome/browser/> "Google Chrome"
